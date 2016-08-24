@@ -1,0 +1,21 @@
+Donkey Kong Country - Java Edition
+Written by Jack Harkins
+
+The objective of this game is to defeat all of the enemies in a level without
+getting hurt. Getting hit by an enemy causes your character (DK) to lose a life.
+You can gain extra lives by collecting 100 bananas, all four KONG letters, or
+brightly-colored balloons. If all of your lives run out, the game is over.
+
+
+Controls
+
+Left arrow   - move left
+Right arrow  - move right
+J            - jump
+P            - toggle pause
+T            - toggle fast/slow motion
+
+
+Level file format
+
+See sampleDKCLevel.txt for information.
