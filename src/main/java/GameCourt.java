@@ -2,12 +2,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.net.URL;
 import javax.sound.sampled.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.LinkedList;
@@ -126,12 +123,12 @@ public class GameCourt extends JPanel {
         this.enemiesRemaining = enemiesRemaining;
         
         try {
-            backgroundImage = ImageIO.read(new File("jungleBackground.png"));
-            gameOverScreen = ImageIO.read(new File("gameOverScreen.png"));
-            titleScreen = ImageIO.read(new File("titleScreen.png"));
+            backgroundImage = ResourceLoader.loadImage("/jungleBackground.png");
+            gameOverScreen = ResourceLoader.loadImage("/gameOverScreen.png");
+            titleScreen = ResourceLoader.loadImage("/titleScreen.png");
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Error loading background, game over screen, or"
-                    + " title screen");
+                    + " title screen: " + e.getMessage());
             System.exit(1);
         }
        
@@ -275,27 +272,14 @@ public class GameCourt extends JPanel {
         
         if (!isMusicInitialized()) {
             try {
-                URL titleURL = new File("title.wav").toURI().toURL();
-                AudioInputStream title = AudioSystem.getAudioInputStream(titleURL);
-                titleMusic = AudioSystem.getClip();
-                titleMusic.open(title);
-                URL levelURL = new File("jungleGroove.wav").toURI().toURL();
-                AudioInputStream level = AudioSystem.getAudioInputStream(levelURL);
-                levelMusic = AudioSystem.getClip();
-                levelMusic.open(level);
-                URL gameOverURL = new File("gameOver.wav").toURI().toURL();
-                AudioInputStream gameOver = AudioSystem.getAudioInputStream(gameOverURL);
-                gameOverMusic = AudioSystem.getClip();
-                gameOverMusic.open(gameOver);
-             } catch (UnsupportedAudioFileException e) {
-                e.printStackTrace();
-             } catch (IOException e) {
-                e.printStackTrace();
-             } catch (LineUnavailableException e) {
+                titleMusic = ResourceLoader.loadClip("/title.wav");
+                levelMusic = ResourceLoader.loadClip("/jungleGroove.wav");
+                gameOverMusic = ResourceLoader.loadClip("/gameOver.wav");
+             } catch (Exception e) {
                 e.printStackTrace();
              }
         }
-        String filename = JOptionPane.showInputDialog(null, "Enter a level", 
+        String filename = JOptionPane.showInputDialog(null, "Enter a level",
                 "sampleDKCLevel.txt");
         LevelParser parser = new LevelParser(filename);
         while (parser.hasNext()) {

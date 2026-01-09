@@ -1,9 +1,7 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 
@@ -58,9 +56,9 @@ public class PowerUp extends GameObj {
     public PowerUp(int px, int py, PowerUpType type) {
         super(px, py, 0, 0, type.getWidth(), type.getHeight());
         try {
-            image = ImageIO.read(new File(type.getFilename()));
+            image = ResourceLoader.loadImage(type.getFilename());
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Powerup image file not found!");
+            JOptionPane.showMessageDialog(null, "Powerup image file not found: " + type.getFilename());
             System.exit(1);
         }
         this.type = type;

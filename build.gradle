@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+application {
+    // main class (no package)
+    mainClass = 'Game'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'Game'
+    }
+    // include runtime dependencies into the fat jar for easy execution
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+// optional: convenience task to run the main class
+tasks.register('runGame', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'Game'
+}

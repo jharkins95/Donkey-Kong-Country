@@ -1,8 +1,7 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 /**
@@ -38,9 +37,9 @@ public class Enemy extends GameObj implements Collidable {
     public Enemy(int px, int py, EnemyType type) {
         super(px, py, ENEMY_VELOCITY, 0, 60, 60);
         try {
-            image = ImageIO.read(new File(type.getFilename()));
-        } catch (java.io.IOException e) {
-            JOptionPane.showMessageDialog(null, "Enemy image file not found!");
+            image = ResourceLoader.loadImage(type.getFilename());
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Enemy image file not found: " + type.getFilename());
             System.exit(1);
         }
         isAlive = true;

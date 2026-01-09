@@ -2,11 +2,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import javax.swing.Timer;
-
-import javax.imageio.ImageIO;
 
 /**
  * Player.java
@@ -43,9 +40,9 @@ public class Player extends GameObj implements Collidable {
         super(px, py, 0, 0, 60, 60);
         this.numLives = numLives;
         try {
-            image = ImageIO.read(new File(imageName));
+            image = ResourceLoader.loadImage(imageName);
         } catch (IOException e) {
-            throw new IllegalArgumentException("image file not found");
+            throw new IllegalArgumentException("image file not found: " + imageName);
         }
         canJump = true;
         isAlive = true;

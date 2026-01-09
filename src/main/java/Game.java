@@ -6,6 +6,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 import javax.swing.*;
 
@@ -57,16 +60,17 @@ public class Game implements Runnable {
         
         
         final JTextArea insText = new JTextArea();
-        BufferedReader insReader;
-        try {
-            insReader = new BufferedReader(new FileReader("instructions.txt"));
-            String line = insReader.readLine();
-            while (line != null) {
+        try (BufferedReader insReader = new BufferedReader(
+                new InputStreamReader(
+                        getClass().getResourceAsStream("/instructions.txt"),
+                        StandardCharsets.UTF_8
+                )
+        )) {
+            String line;
+            while ((line = insReader.readLine()) != null) {
                 insText.append(line + '\n');
-                line = insReader.readLine();
             }
-            insReader.close();
-        } catch (java.io.IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         insText.setEditable(false);
